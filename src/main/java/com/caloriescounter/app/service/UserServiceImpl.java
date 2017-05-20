@@ -1,0 +1,56 @@
+package com.caloriescounter.app.service;
+
+import com.caloriescounter.app.model.User;
+import com.caloriescounter.app.repository.UserRepository;
+import com.caloriescounter.app.util.exception.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import static com.caloriescounter.app.util.ValidationUtil.checkNotFound;
+import static com.caloriescounter.app.util.ValidationUtil.checkNotFoundWithId;
+
+import java.util.List;
+
+/**
+ * Created by Aleksandr_Shakhov on 05.05.17 21:45.
+ */
+
+@Service
+public class UserServiceImpl implements UserService {
+
+    private final UserRepository repository;
+
+    public UserServiceImpl(UserRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public User save(User user) {
+        return repository.save(user);
+    }
+
+    @Override
+    public void delete(int id) throws NotFoundException {
+        checkNotFoundWithId(repository.delete(id), id);
+    }
+
+    @Override
+    public User get(int id) throws NotFoundException {
+        return checkNotFoundWithId(repository.get(id), id);
+    }
+
+    @Override
+    public User getByEmail(String email) throws NotFoundException {
+        return checkNotFound(repository.getByEmail(email), "email = " + email);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return repository.getAll();
+    }
+
+    @Override
+    public void update(User user) throws NotFoundException {
+        repository.save(user);
+    }
+}

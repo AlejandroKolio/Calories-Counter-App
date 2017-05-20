@@ -1,4 +1,4 @@
-package com.caloriescounter.app.model;
+package com.caloriescounter.app.to;
 
 import java.time.LocalDateTime;
 
@@ -18,10 +18,6 @@ public class MealWithExceeded {
     private final String description;
     private final int calories;
     private final boolean exceeded;
-
-    /*public MealWithExceeded(LocalDateTime dateTime, String description, int calories, boolean exceeded) {
-        this(null, dateTime, description, calories, exceeded);
-    }*/
 
     public MealWithExceeded(Integer id, LocalDateTime dateTime, String description, int calories, boolean exceeded) {
         this.id = id;

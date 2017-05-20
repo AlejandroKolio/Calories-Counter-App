@@ -6,35 +6,20 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
-    <title>Title</title>
-    <style>
-        dl {
-            background: none repeat scroll 0 0 #FAFAFA;
-            margin: 8px 0;
-            padding: 0;
-        }
-
-        dt {
-            display: inline-block;
-            width: 170px;
-        }
-
-        dd {
-            display: inline-block;
-            margin-left: 8px;
-            vertical-align: top;
-        }
-    </style>
+    <title>Meal</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <section>
-    <h4><a href="index.html">Home</a></h4>
-    <h4>Edit your meal</h4>
+    <h2><a href="index.html">Home</a></h2>
+    <h2>${param.action == 'create' ? 'Create meal' : 'Edit meal'}</h2>
     <hr>
     <jsp:useBean id="meal" type="com.caloriescounter.app.model.Meal" scope="request"/>
-    <form action="meals" method="post">
+    <form method="post" action="meals">
         <input type="hidden" name="id" value="${meal.id}">
         <dl>
             <dt>DateTime:</dt>
@@ -42,7 +27,7 @@
         </dl>
         <dl>
             <dt>Description:</dt>
-            <dd><input type="text" value="${meal.description}" name="description"></dd>
+            <dd><input type="text" value="${meal.description}" size=40 name="description"></dd>
         </dl>
         <dl>
             <dt>Calories:</dt>
