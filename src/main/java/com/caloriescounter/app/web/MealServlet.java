@@ -1,11 +1,8 @@
 package com.caloriescounter.app.web;
 
-import com.caloriescounter.app.AuthorizedUser;
 import com.caloriescounter.app.model.Meal;
 import com.caloriescounter.app.repository.MealRepository;
-import com.caloriescounter.app.repository.mock.InMemoryMealRepositoryImpl;
 import com.caloriescounter.app.util.DateTimeUtil;
-import com.caloriescounter.app.util.MealsUtil;
 import com.caloriescounter.app.web.meal.MealRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
