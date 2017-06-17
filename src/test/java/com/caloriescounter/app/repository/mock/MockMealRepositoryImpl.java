@@ -3,14 +3,13 @@ package com.caloriescounter.app.repository.mock;
 import com.caloriescounter.app.model.Meal;
 import com.caloriescounter.app.repository.MealRepository;
 import com.caloriescounter.app.util.DateTimeUtil;
-import com.caloriescounter.app.util.MealsUtil;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.time.LocalDateTime;
-import java.time.Month;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.caloriescounter.app.UserTestData.ADMIN_ID;
-import static com.caloriescounter.app.UserTestData.USER_ID;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -38,13 +35,6 @@ public class MockMealRepositoryImpl implements MealRepository {
     // Map  userId -> (mealId-> meal)
     private Map<Integer, Map<Integer, Meal>> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
-
-    {
-        MealsUtil.MEALS.forEach(um -> save(um, USER_ID));
-
-        save(new Meal(LocalDateTime.of(2015, Month.JUNE, 1, 14, 0), "Админ ланч", 510), ADMIN_ID);
-        save(new Meal(LocalDateTime.of(2015, Month.JUNE, 1, 21, 0), "Админ ужин", 1500), ADMIN_ID);
-    }
 
     @Override
     public Meal save(Meal meal, int userId) {

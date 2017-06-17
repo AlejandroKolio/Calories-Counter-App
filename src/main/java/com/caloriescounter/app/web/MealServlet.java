@@ -31,7 +31,6 @@ public class MealServlet extends HttpServlet {
     private ConfigurableApplicationContext context;
     private MealRestController mealController;
 
-    private static final Logger LOG = LoggerFactory.getLogger(MealServlet.class);
     private MealRepository repository;
 
     @Override
@@ -54,7 +53,6 @@ public class MealServlet extends HttpServlet {
         switch (action == null ? "all" : action) {
             case "delete":
                 int id = getId(request);
-                LOG.info("Delete {}", id);
                 mealController.delete(id);
                 response.sendRedirect("meals");
                 break;
@@ -68,7 +66,6 @@ public class MealServlet extends HttpServlet {
                 break;
             case "all":
             default:
-                LOG.info("getAll");
                 request.setAttribute("meals", mealController.getAll());
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
@@ -86,10 +83,8 @@ public class MealServlet extends HttpServlet {
                     Integer.valueOf(request.getParameter("calories")));
 
             if (request.getParameter("id").isEmpty()) {
-                LOG.info("Create {}", meal);
                 mealController.create(meal);
             } else {
-                LOG.info("Update {}", meal);
                 mealController.update(meal, getId(request));
             }
             response.sendRedirect("meals");

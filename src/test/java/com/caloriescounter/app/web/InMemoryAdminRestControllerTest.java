@@ -6,10 +6,12 @@ import com.caloriescounter.app.repository.UserRepository;
 import com.caloriescounter.app.util.exception.NotFoundException;
 import com.caloriescounter.app.web.user.AdminRestController;
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import static com.caloriescounter.app.UserTestData.USER;
@@ -19,27 +21,18 @@ import static com.caloriescounter.app.UserTestData.ADMIN;
  * Created by Aleksandr_Shakhov on 24.05.17 22:10.
  */
 
-
+@ContextConfiguration("classpath:spring/spring-app.xml")
+@RunWith(SpringRunner.class)
 public class InMemoryAdminRestControllerTest {
 
-    private static ConfigurableApplicationContext context;
+    @Autowired
     private static AdminRestController adminRestController;
 
-    @BeforeClass
-    public static void beforeClass() {
-        context = new ClassPathXmlApplicationContext("spring/spring-app.xml");
-        System.out.println("\n" + Arrays.toString(context.getBeanDefinitionNames()) + "\n");
-        adminRestController = context.getBean(AdminRestController.class);
-    }
-
-    @AfterClass
-    public static void afterClass() {
-        context.close();
-    }
+    @Autowired
+    private UserRepository repository;
 
     @Before
     public void setUp() throws Exception {
-        UserRepository repository = context.getBean(UserRepository.class);
         repository.getAll().forEach(user -> repository.delete(user.getId()));
         repository.save(USER);
         repository.save(ADMIN);

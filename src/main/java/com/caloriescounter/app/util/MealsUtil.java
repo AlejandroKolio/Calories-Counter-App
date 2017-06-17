@@ -20,22 +20,7 @@ import java.util.stream.Collectors;
 
 public class MealsUtil {
 
-    public static final List<Meal> MEALS = Arrays.asList(
-            new Meal(LocalDateTime.of(2017, Month.APRIL, 26, 9, 0, 0), "Breakfast", 500),
-            new Meal(LocalDateTime.of(2017, Month.APRIL, 26, 14, 0, 0), "Dinner", 1000),
-            new Meal(LocalDateTime.of(2017, Month.APRIL, 26, 22, 32, 0), "Supper", 500),
-            new Meal(LocalDateTime.of(2017, Month.APRIL, 27, 9, 0, 0), "Breakfast", 500),
-            new Meal(LocalDateTime.of(2017, Month.APRIL, 27, 14, 0, 0), "Dinner", 1500),
-            new Meal(LocalDateTime.of(2017, Month.APRIL, 27, 22, 32, 0), "Supper", 500)
-    );
-
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
-
-    public static void main(String[] args) {
-        List<MealWithExceeded> mealsWithExceeded = getFiltratedMealsWithExceeded(
-                MEALS, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
-        mealsWithExceeded.forEach(System.out::println);
-    }
 
     public static List<MealWithExceeded> getNonFiltratedMealsWithExceeded(Collection<Meal> meals, int caloriesPerDay) {
         return getFiltratedMealsWithExceeded(meals, LocalTime.MIN, LocalTime.MAX, caloriesPerDay);
