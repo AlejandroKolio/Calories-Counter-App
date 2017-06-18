@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 
 @Repository
-public class MockUserRepositoryImpl implements UserRepository {
+public class InMemoryUserRepositoryImpl implements UserRepository {
 
     private static final Comparator<User> USER_COMPARATOR = Comparator.comparing(User::getName).thenComparing(User::getEmail);
 
@@ -26,7 +26,6 @@ public class MockUserRepositoryImpl implements UserRepository {
 
     @Override
     public User save(User user) {
-        Objects.requireNonNull(user);
         if (user.isNew()) {
             user.setId(counter.incrementAndGet());
         }
@@ -53,7 +52,6 @@ public class MockUserRepositoryImpl implements UserRepository {
 
     @Override
     public User getByEmail(String email) {
-        Objects.requireNonNull(email);
         return repository.values().stream()
                 .filter(u -> email.equals(u.getEmail()))
                 .findFirst()

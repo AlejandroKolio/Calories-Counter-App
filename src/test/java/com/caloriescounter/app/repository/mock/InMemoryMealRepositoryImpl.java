@@ -4,6 +4,7 @@ import com.caloriescounter.app.model.Meal;
 import com.caloriescounter.app.repository.MealRepository;
 import com.caloriescounter.app.util.DateTimeUtil;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -13,22 +14,19 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Created by Aleksandr_Shakhov on 24.05.17 21:46.
  */
 
 @Repository
-public class MockMealRepositoryImpl implements MealRepository {
+public class InMemoryMealRepositoryImpl implements MealRepository {
 
-    private static final Logger LOG = getLogger(MockMealRepositoryImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InMemoryUserRepositoryImpl.class);
 
     private static final Comparator<Meal> MEAL_COMPARATOR = Comparator.comparing(Meal::getDateTime).reversed();
 
@@ -38,8 +36,6 @@ public class MockMealRepositoryImpl implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
-        Objects.requireNonNull(meal);
-
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
         } else if (get(meal.getId(), userId) == null) {
@@ -79,8 +75,6 @@ public class MockMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        Objects.requireNonNull(startDateTime);
-        Objects.requireNonNull(endDateTime);
         return getAllAsStream(userId)
                 .filter(um -> DateTimeUtil.isBetween(um.getDateTime(), startDateTime, endDateTime))
                 .collect(Collectors.toList());
