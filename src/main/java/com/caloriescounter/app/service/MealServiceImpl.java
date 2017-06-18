@@ -2,9 +2,9 @@ package com.caloriescounter.app.service;
 
 import com.caloriescounter.app.model.Meal;
 import com.caloriescounter.app.repository.MealRepository;
-import com.caloriescounter.app.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,18 +25,21 @@ public class MealServiceImpl implements MealService {
         this.repository = repository;
     }
 
-    public List<Meal> getBetweenDateTimes(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        return repository.getBetween(startDateTime, endDateTime, userId);
-    }
-
     @Override
-    public Meal get(int id, int userId) throws NotFoundException {
+    public Meal get(int id, int userId) {
         return checkNotFoundWithId(repository.get(id, userId), id);
     }
 
     @Override
-    public void delete(int id, int userId) throws NotFoundException {
+    public void delete(int id, int userId) {
         checkNotFoundWithId(repository.delete(id, userId), id);
+    }
+
+    @Override
+    public List<Meal> getBetweenDateTimes(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+        Assert.notNull(startDateTime, "startDateTime must not be null");
+        Assert.notNull(endDateTime, "endDateTime  must not be null");
+        return repository.getBetween(startDateTime, endDateTime, userId);
     }
 
     @Override
@@ -45,12 +48,14 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Meal update(Meal meal, int userId) throws NotFoundException {
+    public Meal update(Meal meal, int userId) {
+        Assert.notNull(meal, "meal must not be null");
         return checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
     @Override
     public Meal save(Meal meal, int userId) {
+        Assert.notNull(meal, "meal must not be null");
         return repository.save(meal, userId);
     }
 }
