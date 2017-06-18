@@ -13,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
@@ -30,6 +32,7 @@ import static com.caloriescounter.app.UserTestData.USER_ID;
         "classpath:spring/spring-db.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
+@Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
 
     static {
@@ -38,14 +41,6 @@ public class MealServiceTest {
 
     @Autowired
     private MealService service;
-
-    @Autowired
-    private DbPopulator dbPopulator;
-
-    @Before
-    public void setUp() throws Exception {
-        dbPopulator.execute();
-    }
 
     @Test
     public void testDelete() throws Exception {
