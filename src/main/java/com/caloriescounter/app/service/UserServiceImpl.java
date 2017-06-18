@@ -5,6 +5,7 @@ import com.caloriescounter.app.repository.UserRepository;
 import com.caloriescounter.app.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import static com.caloriescounter.app.util.ValidationUtil.checkNotFound;
 import static com.caloriescounter.app.util.ValidationUtil.checkNotFoundWithId;
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
+        Assert.notNull(user, "user must not be null");
         return repository.save(user);
     }
 
@@ -42,7 +44,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByEmail(String email) throws NotFoundException {
-        return checkNotFound(repository.getByEmail(email), "email = " + email);
+        Assert.notNull(email, "email must not be null");
+        return checkNotFound(repository.getByEmail(email), "email=" + email);
     }
 
     @Override
@@ -51,7 +54,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(User user) throws NotFoundException {
+    public void update(User user) {
+        Assert.notNull(user, "user must not be null");
         repository.save(user);
     }
 }
